@@ -1,6 +1,7 @@
-from django.shortcuts import render,get_object_or_404
-from django.http import HttpResponse
-from .models import Board
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Board, Topic, Post
+from django.contrib.auth.models import User
+from .forms import NewTopicForm
 
 
 # Create your views here.
@@ -17,15 +18,22 @@ def board_topics(request, boards_id):
 
 def new_topic(request, boards_id):
     board = get_object_or_404(Board, pk=boards_id)
-    #nếu ấn vòa nút post, mình sẽ lấy giá trị và lưu và db
-    if request.mothod=="POST":
-        # lấy dữ liệu về subject
-        subject = request.POST['subject']
-        # lấy dữ liệu về message
-        message = request.POST['message']
-        # lấy ra user đang log in hiện tại
-        user = User.object.first()
-
-
-
-    return render(request, 'boards/new_topic.html', {'board': board})
+    user = User.objects.first()  # TODO: get the currently logged in user
+    # nếu ấn vòa nút post, mình sẽ lấy giá trị và lưu và db
+    if request.method == 'POST':
+        form = NewTopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.board = board
+            topic.starter_by = user
+            topic.save()
+            # lưu vào bảng Post
+            post = Post.objects.create(
+                message=form.cleaned_date.get('message'),
+                topic=topic,
+                created_by=user
+            )
+            return redirect('board_topics', boards_id=board.pk)
+    else:
+        form = NewTopicForm()
+    return render(request, 'boards/new_topic.html', {'board': board,'form': form})

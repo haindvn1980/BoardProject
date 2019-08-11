@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'boards',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,6 @@ ROOT_URLCONF = 'BoardProject.urls'
 
 TEMPLATES = [
     {
-
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
