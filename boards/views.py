@@ -7,4 +7,9 @@ from .models import Board
 
 def home(request):
     boards = Board.objects.all()
-    return render(request, 'boards/home.html', {'boards':boards})
+    return render(request, 'boards/home.html', {'boards': boards})
+
+
+def board_topics(request, boards_id):
+    board = Board.objects.get(pk=boards_id)
+    return render(request, 'boards/topics.html', {'board': board})
