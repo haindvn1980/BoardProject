@@ -15,3 +15,13 @@ class Topic(models.Model):
     board = models.ForeignKey(Board, related_name='topics', on_delete=models.PROTECT)
     starter_by = models.ForeignKey(User, related_name='topics', on_delete=models.PROTECT)
     last_updated = models.DateTimeField(auto_now_add=True)
+
+
+class Post(models.Model):
+    message = models.TextField(max_length=4000)
+    topic = models.ForeignKey(Topic, related_name='post', on_delete=models.PROTECT)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(null=True)
+    created_by = models.ForeignKey(User,related_name='post', on_delete=models.PROTECT)
+    updated_by = models.ForeignKey(User,null=True, related_name='+', on_delete=models.PROTECT)
+    last_updated = models.DateTimeField(auto_now_add=True)

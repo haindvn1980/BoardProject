@@ -6,5 +6,5 @@ from boards import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('boards/<int:boards_id>/', views.board_topics, name='board_topics'),
-    #url(r'^boards/(?P<pk>\d+)/$', views.board_topics, name='board_topics'),
+    path('boards/<int:boards_id>/new/', views.new_topic, name='new_topic'),
 ]
