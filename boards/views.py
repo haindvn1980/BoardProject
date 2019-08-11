@@ -29,11 +29,11 @@ def new_topic(request, boards_id):
             topic.save()
             # lưu vào bảng Post
             post = Post.objects.create(
-                message=form.cleaned_date.get('message'),
+                message=form.cleaned_data.get('message'),
                 topic=topic,
                 created_by=user
             )
             return redirect('board_topics', boards_id=board.pk)
     else:
         form = NewTopicForm()
-    return render(request, 'boards/new_topic.html', {'board': board,'form': form})
+    return render(request, 'boards/new_topic.html', {'board': board, 'form': form})
