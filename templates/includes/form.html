@@ -14,16 +14,15 @@
                 {% endfor%}
 
             {% else %}
-                    {% render_field field class="form-control is-valid" %}
+                {% render_field field class="form-control is-valid" %}
             {% endif %}
         {% else %}
             {% render_field field class="form-control is-valid" %}
         {% endif %}
 
-
         {% if field.help_text %}
         <small class="form-text text-muted">
-            {{ field.help_text }}
+            {{ field.help_text|safe }}
         </small>
         {% endif %}
     </div>
