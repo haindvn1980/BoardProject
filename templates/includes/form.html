@@ -1,4 +1,13 @@
 {% load widget_tweaks %}
+
+{% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in form.non_field_errors %}
+      <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 {% for field in form %}
     <div class="form-group">
           {{ field.label_tag }}
@@ -7,13 +16,12 @@
             {% if field.errors %}
 
                 {% render_field field class="form-control is-invalid" %}
-                {% if form.non_field_errors %}
-                    {% for error in field.errors %}
-                        <div class="invalid-feedback" role="alert">
-                           <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
-                        </div>
-                    {% endfor%}
-                {% endif %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                       <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                    </div>
+                {% endfor%}
+
             {% else %}
                 {% render_field field class="form-control is-valid" %}
             {% endif %}
